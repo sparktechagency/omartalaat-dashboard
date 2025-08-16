@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ant Design modal footer top margin remove */
+.ant-modal-footer {
+  margin-top: 0 !important;
+}
+
+/* Ensure selected route icon is white */
+.ant-menu-item-selected .ant-menu-item-icon {
+  color: white !important;
+}
+
+/* Ant Design menu item text color - default */
+.ant-menu-item {
+  color: black !important;
+}
+
+/* Hover effect - change text color to white and background gradient */
+.ant-menu-item:hover {
+  background: linear-gradient(90deg, #69CDFF 0%, #057199 100%) !important;
+  color: white !important; 
+  font-weight: normal !important; 
+}
+
+/* Menu item text color when hovered */
+.ant-menu-item:hover a,
+.ant-menu-item:hover span,
+.ant-menu-item:hover p {
+  color: white !important;
+}
+
+.ant-menu-item-selected {
+  background: #057199 !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* Icon color change on hover */
+.ant-menu-item:hover .ant-menu-item-icon {
+  color: white !important;
+}
+
+/* Ant Design Badge */
+.ant-badge .ant-badge-count {
+  background: #057199 !important;
+  color: white !important;
+}
+
+/* Jodit Editor Height */
+.jodit-workplace {
+  height: 550px !important;
+}
+
+/* Add this to your CSS */
+.custom-row {
+  margin-bottom: 10px !important;
+}
+
+/* Optional: To add padding to the rows */
+.custom-row .ant-table-cell {
+  padding: 12px 20px;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #057199 !important;
+  color: white !important;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Hide number input arrows in WebKit browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Selected menu item image color change to white */
+.ant-menu-item-selected .icon-image {
+  filter: invert(1) grayscale(0) brightness(100%) !important;
+}
+
+/* Add margin bottom to each row in the table body */
+.ant-table-tbody > tr {
+  margin-bottom: 5px;
+}
+/* Add space between rows */
+.ant-table {
+  border-spacing: 0 5px; /* Adds 5px space between rows */
+}
+
+.custom-tooltip .ant-tooltip-inner {
+  background: linear-gradient(to right, #69CDFF,#057199 );
+  color: white;
+}
+
+/* Ensure SVG icons in selected menu items are white */
+.ant-menu-item-selected .menu-icon {
+  color: white !important;
+  fill: white !important;
+  stroke-width: 2px; /* Add stroke width to make it bold */
+}
+
+/* Hover effect for SVG icons */
+.ant-menu-item:hover .menu-icon {
+  color: white !important;
+  fill: white !important;
+  stroke-width: 2px; /* Add stroke width to make it bold */
+}
+
+/* Target SVG paths directly if needed */
+.ant-menu-item-selected .menu-icon path,
+.ant-menu-item-selected .menu-icon svg path {
+  fill: white !important;
+  stroke-width: 2px; /* Add stroke width for bold effect */
+}
+
+.ant-menu-item:hover .menu-icon path,
+.ant-menu-item:hover .menu-icon svg path {
+  fill: white !important;
+  stroke-width: 2px; /* Add stroke width for bold effect */
+}
+
+/* Add this class to handle special SVG components */
+.svg-active svg {
+  fill: white !important;
+  stroke-width: 2px; /* Add stroke width for bold effect */
+}
+
+.svg-active svg path {
+  fill: white !important;
+  stroke-width: 2px; /* Add stroke width for bold effect */
+}
+
+.no-hover-bg:hover {
+  background-color: transparent !important; /* Disable hover effect */
+}
+
+/* Override hover state for the filtering buttons */
+.ant-dropdown-button:hover {
+  background-color: #057199 !important; /* This will give you bg-red-800 */
+  color: white !important; /* Ensure text remains white */
+}
+
+/* Override specific button hover style for filtering dropdown */
+.ant-btn:hover {
+  background-color: #057199 !important; /* Apply red background on hover */
+  color: white !important; /* Text color remains white */
+  border: none !important; /* Ensure no border on hover */
+}
+
+.ant-btn .ant-space-item {
+  color: white !important; /* Ensures any inner elements (like icons) have white color */
+}
+
+.ant-dropdown-button.ant-btn .ant-space-item:hover {
+  background-color: #057199 !important;
+  color: white !important;
+}
