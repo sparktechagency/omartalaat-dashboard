@@ -109,11 +109,11 @@ const Sidebar = () => {
       icon: renderIcon(VideoManagement, "/product-management"),
       label: <Link to="/product-management">Products Management</Link>,
     },
-    {
-      key: "/coming-soon",
-      icon: renderIcon(ComingSoon, "/coming-soon"),
-      label: <Link to="/coming-soon"> Coming Soon</Link>,
-    },
+    // {
+    //   key: "/coming-soon",
+    //   icon: renderIcon(ComingSoon, "/coming-soon"),
+    //   label: <Link to="/coming-soon"> Coming Soon</Link>,
+    // },
     {
       key: "/total-earning",
       icon: renderIcon(VideoManagement, "/total-earning"),
@@ -141,33 +141,33 @@ const Sidebar = () => {
       label: <Link to="/loyalty-program">Subscription package</Link>,
       roles: ["SUPER_ADMIN"],
     },
+    // {
+    //   key: "/subcription-user",
+    //   icon: renderIcon(LoginCredentials, "/subcription-user"),
+    //   label: <Link to="/subcription-user">Subscription Users</Link>,
+    //   roles: ["SUPER_ADMIN"],
+    // },
     {
-      key: "/subcription-user",
-      icon: renderIcon(LoginCredentials, "/subcription-user"),
-      label: <Link to="/subcription-user">Subscription Users</Link>,
-      roles: ["SUPER_ADMIN"],
+      key: "/the-vault",
+      icon: renderIcon(InventoryManagement, "/the-vault"),
+      label: <Link to="/the-vault">The Vault</Link>,
     },
-    {
-      key: "/inventory",
-      icon: renderIcon(InventoryManagement, "/inventory"),
-      label: <Link to="/inventory">Quotation Management</Link>,
-    },
-    {
-      key: "/subsciption",
-      icon: renderIcon(LoyaltyProgram, "/subsciption"),
-      label: <Link to="/subsciption">Push Notification</Link>,
-    },
-    {
-      key: "/login-credentials",
-      icon: renderIcon(LoginCredentials, "/login-credentials"),
-      label: <Link to="/login-credentials">Login Credentials</Link>,
-      roles: ["SUPER_ADMIN"],
-    },
-    {
-      key: "/contactUs",
-      icon: renderIcon(LoginCredentials, "/contactUs"),
-      label: <Link to="/contactUs">Contact Us</Link>,
-    },
+    // {
+    //   key: "/subsciption",
+    //   icon: renderIcon(LoyaltyProgram, "/subsciption"),
+    //   label: <Link to="/subsciption">Push Notification</Link>,
+    // },
+    // {
+    //   key: "/login-credentials",
+    //   icon: renderIcon(LoginCredentials, "/login-credentials"),
+    //   label: <Link to="/login-credentials">Login Credentials</Link>,
+    //   roles: ["SUPER_ADMIN"],
+    // },
+    // {
+    //   key: "/contactUs",
+    //   icon: renderIcon(LoginCredentials, "/contactUs"),
+    //   label: <Link to="/contactUs">Contact Us</Link>,
+    // },
     {
       key: "subMenuSetting",
       icon: renderIcon(Settings, "subMenuSetting"),

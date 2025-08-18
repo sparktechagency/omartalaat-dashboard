@@ -36,7 +36,7 @@ const OrderManagementTable = () => {
   // Build query args
   const queryArgs = [
     { name: 'page', value: currentPage },
-    { name: 'limit', value: 10 },
+    { name: 'limit', value: 5 },
   ];
 
   if (statusFilter !== 'All') {
@@ -230,12 +230,13 @@ const OrderManagementTable = () => {
         scroll={{ x: 1200 }}
         pagination={{
           current: currentPage,
-          pageSize: 10,
+          pageSize: 5,
+
           total: meta.total,
-          showSizeChanger: false,
-          showQuickJumper: true,
-          showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} orders`,
+          // showSizeChanger: false,
+          // showQuickJumper: true,
+          // showTotal: (total, range) =>
+          //   `${range[0]}-${range[1]} of ${total} orders`,
           onChange: (page) => setCurrentPage(page),
         }}
       />

@@ -13,7 +13,7 @@ const subscriptionPackageApi = api.injectEndpoints({
           });
         }
         return {
-          url: "/admin/product-orders/get-order-revenue",
+          url: "/admin/package/managements",
           method: "GET",
           params
         };
@@ -21,24 +21,46 @@ const subscriptionPackageApi = api.injectEndpoints({
       providesTags: ["SubscriptionPackage"],
     }),
 
-    // GET: Get all push notifications with filtering and pagination
-    getSingleSubscriptionPackage: builder.query({
-      query: () => {
-        return {
-          url: `/admin/push-notifications`,
-          method: "GET",
-          params,
-        }
-      },
 
+
+    // POST: Create a new push notification
+    createSubscriptionPackage: builder.mutation({
+      query: (data) => ({
+        url: "/admin/package/managements",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["SubscriptionPackage"],
     }),
+
+    // PATCH: Update a push notification
+    updateSubscriptionPackage: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/admin/package/managements/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["SubscriptionPackage"],
+    }),
+
+    // DELETE: Delete a push notification
+    deleteSubscriptionPackage: builder.mutation({
+      query: (id) => ({
+        url: `/admin/package/managements/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["SubscriptionPackage"],
+    }),
+
+
   }),
 });
 
 export const {
-    useGetAllTotalEarningQuery,
-    useGetSingleTotalEarningQuery,
-
+  useGetAllSubscriptionPackageQuery,
+  useCreateSubscriptionPackageMutation,
+  useUpdateSubscriptionPackageMutation,
+  useDeleteSubscriptionPackageMutation
 
 } = subscriptionPackageApi;
 

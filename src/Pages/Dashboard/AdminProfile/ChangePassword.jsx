@@ -106,7 +106,8 @@ const ChangePassword = () => {
         <Form.Item className="text-center">
           <Button
             htmlType="submit"
-            className="w-full h-12 bg-[#CA3939] text-white"
+            className="w-full h-12 bg-primary border-none text-white"
+
           >
             Update password
           </Button>

@@ -16,6 +16,7 @@ import {
   useCreateAuctionMutation,
   useUpdateAuctionMutation,
 } from "../../redux/apiSlices/auctionsApi";
+import { getImageUrl } from "../common/imageUrl";
 
 const { Option } = Select;
 
@@ -28,6 +29,11 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
   const [updateAuction, { isLoading: isUpdating }] = useUpdateAuctionMutation();
 
   const isEditing = !!editingAuction;
+
+  // Disabled date function
+  const disabledDate = (current) => {
+    return current && current < moment().startOf('day');
+  };
 
   useEffect(() => {
     if (visible && editingAuction) {
@@ -50,8 +56,12 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
         creditNeeds: editingAuction.creditNeeds,
       });
 
+      // Fix: Check all possible image properties and ensure we're using the complete URL
       if (editingAuction.productImage || editingAuction.image) {
-        setImagePreview(editingAuction.productImage || editingAuction.image);
+        const imageUrl = editingAuction.productImage || editingAuction.image;
+        // Check if the URL is relative and needs a base URL
+        setImagePreview(getImageUrl(imageUrl));
+
       }
     } else if (visible) {
       form.resetFields();
@@ -90,7 +100,7 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
     setImagePreview(null);
   };
 
-  // Form submission handler
+  // Form submission handler - FIXED VERSION
   const handleFormSubmit = async (values) => {
     try {
       // Validate required image for new auctions
@@ -146,33 +156,32 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
         }
       }
 
+      // FIXED: Always use FormData for consistency
+      const formData = new FormData();
+      
+      // Always append the data as JSON string
+      formData.append("data", JSON.stringify(auctionData));
+      
+      // Append image if selected, or send a placeholder for updates without new image
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+      } else if (isEditing) {
+        // For updates without new image, you might need to handle this differently
+        // depending on your backend implementation
+        // Option 1: Don't append image field
+        // Option 2: Append a flag indicating no image change
+        formData.append("keepExistingImage", "true");
+      }
+
       let result;
 
-      if (selectedImage) {
-        // If there's an image, send as FormData
-        const formData = new FormData();
-        formData.append("image", selectedImage);
-        formData.append("data", JSON.stringify(auctionData));
-
-        if (isEditing) {
-          result = await updateAuction({
-            auctionId: editingAuction._id || editingAuction.id,
-            data: formData,
-          }).unwrap();
-        } else {
-          result = await createAuction(formData).unwrap();
-        }
+      if (isEditing) {
+        result = await updateAuction({
+          auctionId: editingAuction._id || editingAuction.id,
+          data: formData,
+        }).unwrap();
       } else {
-        // If no image, send as JSON (only for updates)
-        if (isEditing) {
-          result = await updateAuction({
-            auctionId: editingAuction._id || editingAuction.id,
-            data: auctionData,
-          }).unwrap();
-        } else {
-          message.error("Image is required for new auctions");
-          return;
-        }
+        result = await createAuction(formData).unwrap();
       }
 
       message.success(
@@ -214,7 +223,7 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
             <Input placeholder="Enter product name" />
           </Form.Item>
 
-    <Form.Item
+          <Form.Item
             name="creditNeeds"
             label="Credit Needs"
             rules={[{ required: true, message: "Please enter Credit Needs" }]}
@@ -226,9 +235,9 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
             />
           </Form.Item>
 
-          {/* <Form.Item
+          <Form.Item
             name="productPrice"
-            label={isEditing ? "Starting Price (Optional)" : "Starting Price"}
+            label={isEditing ? " Price (Optional)" : " Price"}
             rules={isEditing ? [] : [{ required: true, message: "Please enter starting price" }]}
           >
             <InputNumber
@@ -238,10 +247,10 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
               formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
             />
-          </Form.Item> */}
+          </Form.Item>
         </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Form.Item
             name="csAuraWorth"
             label="CS Aura Worth"
@@ -265,8 +274,6 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
               min={0}
             />
           </Form.Item>
-
-      
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -275,15 +282,25 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
             label="Start Date"
             rules={[{ required: true, message: "Please select start date" }]}
           >
-            <DatePicker style={{ width: "100%" }} />
+            <DatePicker 
+              style={{ width: "100%" }} 
+              disabledDate={disabledDate}
+            />
           </Form.Item>
-
+          
           <Form.Item
             name="endDate"
             label="End Date"
             rules={[{ required: true, message: "Please select end date" }]}
           >
-            <DatePicker style={{ width: "100%" }} />
+            <DatePicker 
+              style={{ width: "100%" }} 
+              disabledDate={(current) => {
+                const startDate = form.getFieldValue('startDate');
+                return current && (current < moment().startOf('day') || 
+                       (startDate && current < startDate.startOf('day')));
+              }}
+            />
           </Form.Item>
         </div>
 
@@ -305,9 +322,6 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
           </Form.Item>
         </div>
 
-        {/* Required fields */}
-      
-
         {isEditing && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Form.Item name="highestBidder" label="Highest Bidder">
@@ -325,14 +339,6 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
             </Form.Item>
           </div>
         )}
-
-        <Form.Item name="status" label="Status (Optional)">
-          <Select placeholder="Select status" allowClear>
-            <Option value="active">Active</Option>
-            <Option value="inactive">Inactive</Option>
-            <Option value="completed">Completed</Option>
-          </Select>
-        </Form.Item>
 
         {/* Custom Image Upload Section */}
         <Form.Item 

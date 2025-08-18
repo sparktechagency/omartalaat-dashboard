@@ -15,14 +15,16 @@ const UserProfile = () => {
   const [updateProfile] = useUpdateProfileMutation();
 
   const user = data?.data;
+  console.log(user)
 
   useEffect(() => {
     if (user) {
       form.setFieldsValue({
-        name: user.name,
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        userName: user.userName || "",
         email: user.email,
-        address: user.address,
-        phone: user.phone || "",
+        shippingAddress: user.shippingAddress || "",
       });
 
       if (user.image) {
@@ -94,10 +96,11 @@ const UserProfile = () => {
   const onFinish = async (values) => {
     try {
       const userData = {
-        name: values.name,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        userName: values.userName,
         email: values.email,
-        address: values.address,
-        phone: values.phone || "",
+        shippingAddress: values.shippingAddress || "",
       };
 
       const formDataToSend = new FormData();
@@ -169,15 +172,51 @@ const UserProfile = () => {
             </Form.Item>
           </div>
 
-          {/* Name */}
+          {/* First Name */}
           <Form.Item
-            name="name"
-            label="Name"
+            name="firstName"
+            label="First Name"
             style={{ marginBottom: 0 }}
-            rules={[{ required: true, message: "Please enter your name" }]}
+            rules={[{ required: true, message: "Please enter your first name" }]}
           >
             <Input
-              placeholder="Enter your Name"
+              placeholder="Enter your First Name"
+              style={{
+                height: "45px",
+                backgroundColor: "#f7f7f7",
+                borderRadius: "8px",
+                outline: "none",
+              }}
+            />
+          </Form.Item>
+
+          {/* Last Name */}
+          <Form.Item
+            name="lastName"
+            label="Last Name"
+            style={{ marginBottom: 0 }}
+            rules={[{ required: true, message: "Please enter your last name" }]}
+          >
+            <Input
+              placeholder="Enter your Last Name"
+              style={{
+                height: "45px",
+                backgroundColor: "#f7f7f7",
+                borderRadius: "8px",
+                outline: "none",
+              }}
+            />
+          </Form.Item>
+
+          {/* Username */}
+          <Form.Item
+            name="userName"
+            label="Username"
+            style={{ marginBottom: 0 }}
+            rules={[{ required: true, message: "Please enter your username" }]}
+          >
+            <Input
+              placeholder="Enter your Username"
               style={{
                 height: "45px",
                 backgroundColor: "#f7f7f7",
@@ -210,36 +249,6 @@ const UserProfile = () => {
             />
           </Form.Item>
 
-          {/* Address */}
-          <Form.Item
-            name="address"
-            label="Address"
-            style={{ marginBottom: 0 }}
-            rules={[{ required: true, message: "Please enter your address" }]}
-          >
-            <Input
-              placeholder="Enter your Address"
-              style={{
-                height: "45px",
-                backgroundColor: "#f7f7f7",
-                borderRadius: "8px",
-                outline: "none",
-              }}
-            />
-          </Form.Item>
-
-          {/* Phone */}
-          <Form.Item name="phone" label="Phone" style={{ marginBottom: 0 }}>
-            <Input
-              placeholder="Enter your Phone Number"
-              style={{
-                height: "45px",
-                backgroundColor: "#f7f7f7",
-                borderRadius: "8px",
-                outline: "none",
-              }}
-            />
-          </Form.Item>
 
           {/* Update Profile Button */}
           <div className="col-span-2 mt-6 text-end">

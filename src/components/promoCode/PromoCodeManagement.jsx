@@ -199,6 +199,7 @@ const PromoCodeManagement = () => {
           icon={<PlusOutlined />}
           onClick={handleCreateNew}
           size="large"
+          style={{backgroundColor: '#057199'}}
         >
           Create New Promo Code
         </Button>
@@ -214,10 +215,10 @@ const PromoCodeManagement = () => {
           current: currentPage,
           pageSize: meta.limit || 10,
           total: meta.total || 0,
-          showSizeChanger: false,
-          showQuickJumper: true,
-          showTotal: (total, range) => 
-            `${range[0]}-${range[1]} of ${total} items`,
+          // showSizeChanger: false,
+          // showQuickJumper: true,
+          // showTotal: (total, range) => 
+          //   `${range[0]}-${range[1]} of ${total} items`,
           onChange: (page) => setCurrentPage(page),
         }}
         scroll={{ x: 1200 }}

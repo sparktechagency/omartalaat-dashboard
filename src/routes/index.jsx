@@ -49,6 +49,7 @@ import TotalEarning from "../components/totalEarning/TotalEarning";
 import UserManagementTable from "../components/userManagement/UserManagementTable";
 import OrderManagementContainer from "../components/orderMangement/OrderManagementContainer";
 import AuctionManagement from "../components/auctions/AuctionManagement";
+import TheVault from "../components/theVault/TheVault";
 // import SalesRepsManagementTable from "../components/SalesRepsManagement/SalesRepsManagement";
 
 const router = createBrowserRouter([
@@ -96,8 +97,10 @@ const router = createBrowserRouter([
         element: <AllVideos />,
       },
       {
-        path: "/inventory",
-        element: <QuotationManagement />,
+        path: "/the-vault",
+
+        element: <TheVault />,
+
       },
       {
         path: "/salesRepsManage/:id",

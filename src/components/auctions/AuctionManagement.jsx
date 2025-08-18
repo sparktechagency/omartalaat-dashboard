@@ -73,11 +73,7 @@ const AuctionManagement = () => {
 
   // Process auctions data
   const auctions = auctionsData?.data?.result || [];
-  const paginationData = auctionsData?.data?.pagination || {
-    total: 0,
-    page: 1,
-    limit: 3,
-  };
+  const paginationData = auctionsData?.data?.meta 
 
   // Modal handlers
   const showFormModal = (auction = null) => {
@@ -390,11 +386,11 @@ const AuctionManagement = () => {
             current: currentPage,
             pageSize: pageSize,
             total: paginationData.total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} items`,
-            pageSizeOptions: ['10', '20', '50', '100'],
+            // showSizeChanger: true,
+            // showQuickJumper: true,
+            // showTotal: (total, range) =>
+            //   `${range[0]}-${range[1]} of ${total} items`,
+            // pageSizeOptions: ['10', '20', '50', '100'],
           }}
           onChange={handleTableChange}
           loading={isLoadingAuctions}
