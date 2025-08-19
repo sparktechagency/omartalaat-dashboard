@@ -141,6 +141,12 @@ const Sidebar = () => {
       label: <Link to="/loyalty-program">Subscription package</Link>,
       roles: ["SUPER_ADMIN"],
     },
+    {
+      key: "/dua-form",
+      icon: renderIcon(SubscriptionManagement, "/dua-form"),
+      label: <Link to="/dua-form">Dua Form</Link>,
+      roles: ["SUPER_ADMIN"],
+    },
     // {
     //   key: "/subcription-user",
     //   icon: renderIcon(LoginCredentials, "/subcription-user"),
@@ -152,17 +158,23 @@ const Sidebar = () => {
       icon: renderIcon(InventoryManagement, "/the-vault"),
       label: <Link to="/the-vault">The Vault</Link>,
     },
+    {
+      key: "/gallery-management",
+      icon: renderIcon(VideoManagement, "/gallery-management"),
+      label: <Link to="/gallery-management">Gallery Management</Link>,
+    },
     // {
     //   key: "/subsciption",
     //   icon: renderIcon(LoyaltyProgram, "/subsciption"),
     //   label: <Link to="/subsciption">Push Notification</Link>,
     // },
-    // {
-    //   key: "/login-credentials",
-    //   icon: renderIcon(LoginCredentials, "/login-credentials"),
-    //   label: <Link to="/login-credentials">Login Credentials</Link>,
-    //   roles: ["SUPER_ADMIN"],
-    // },
+    {
+      key: "/cm-points",
+      icon: renderIcon(LoginCredentials, "/cm-points"),
+      label: <Link to="/cm-points">CM Points</Link>,
+
+      roles: ["SUPER_ADMIN"],
+    },
     // {
     //   key: "/contactUs",
     //   icon: renderIcon(LoginCredentials, "/contactUs"),

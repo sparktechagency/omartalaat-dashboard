@@ -62,7 +62,7 @@ const Home = () => {
                 <div>
                   <h2 className="text-center  font-bold mb-3">Total Corals Sell</h2>
                   <h3 className="text-primary text-3xl text-center font-bold">
-                    $ {data?.totalEarn}
+                     {data?.orders?.totalQuantity}
                   </h3>
                 </div>
                 
@@ -87,7 +87,7 @@ const Home = () => {
                   <h2 className="text-center  font-bold mb-3">Total Earn </h2>
                   <h3 className="text-primary text-3xl text-center font-bold">
                     {" "}
-                    ${data?.revenue.total}{" "}
+                    AED {data?.revenue.total}{" "}
                   </h3>
                 </div>
                 

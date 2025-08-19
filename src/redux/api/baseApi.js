@@ -28,6 +28,7 @@ export const api = createApi({
     "Admin",
     "Notification",
     "PushNotification",
+    "Gallery",
   ],
   endpoints: () => ({}),
 });

@@ -202,8 +202,8 @@ const AllProducts = () => {
           pageSize={pageSize}
           total={meta.total}
           onChange={handlePageChange}
-          showSizeChanger
-          showTotal={(total) => `Total ${total} items`}
+          // showSizeChanger
+          // showTotal={(total) => `Total ${total} items`}
         />
       </div>
 

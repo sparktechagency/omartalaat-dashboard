@@ -23,6 +23,7 @@ import Retailer from "../Pages/Dashboard/Retailer";
 import ViewSalesReps from "../components/SalesRepsManagement/detailsSalesReps/SubCategoryTable";
 import Products from "../Pages/Dashboard/Products";
 import LoyaltyProgram from "../Pages/Dashboard/LoyaltyProgram";
+import Gallery from "../Pages/Dashboard/Gallery";
 // import OrderManagementContainer from "../components/orderMangement/OrderManagementContainer";
 import VideoManagementSystem from "../components/retailerManagement/RetailerManageTable";
 // import CategoryManagement from "../components/SalesRepsManagement/SalesRepsManagement";
@@ -50,6 +51,8 @@ import UserManagementTable from "../components/userManagement/UserManagementTabl
 import OrderManagementContainer from "../components/orderMangement/OrderManagementContainer";
 import AuctionManagement from "../components/auctions/AuctionManagement";
 import TheVault from "../components/theVault/TheVault";
+import DuaForm from "../Pages/Dashboard/DuaForm";
+import CmPointsManage from "../components/cmPoints/CmPointsManage";
 // import SalesRepsManagementTable from "../components/SalesRepsManagement/SalesRepsManagement";
 
 const router = createBrowserRouter([
@@ -97,9 +100,17 @@ const router = createBrowserRouter([
         element: <AllVideos />,
       },
       {
+        path: "/gallery-management",
+        element: <Gallery />,
+      },
+      {
         path: "/the-vault",
-
         element: <TheVault />,
+
+      },
+      {
+        path: "/dua-form",
+        element: <DuaForm />,
 
       },
       {
@@ -119,8 +130,8 @@ const router = createBrowserRouter([
         element: <SubscriptionManagements />,
       },
       {
-        path: "/coming-soon",
-        element: <CommingSoonVideoPage />,
+        path: "/cm-points",
+        element: <CmPointsManage />,
       },
       {
         path: "/total-earning",
