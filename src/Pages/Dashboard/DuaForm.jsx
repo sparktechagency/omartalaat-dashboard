@@ -46,18 +46,18 @@ const DuaForm = () => {
     }
   };
 
-  if (isLoadingSetting) return <p>Loading Dua Form...</p>;
-  if (isError) return <p>Failed to load Dua Form.</p>;
+  if (isLoadingSetting) return <p>Loading Doa Form...</p>;
+  if (isError) return <p>Failed to load Doa Form.</p>;
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold">Dua Form</h2>
+        <h2 className="text-xl font-bold">Doa Form</h2>
         <GradientButton
           onClick={showModal}
           className="h-10 text-white w-60 bg-secondary"
         >
-          Edit Dua Form
+          Edit Doa Form
         </GradientButton>
       </div>
 
@@ -71,7 +71,7 @@ const DuaForm = () => {
       </div>
 
       <Modal
-        title="Update Terms and conditions"
+        title="Update Doa Form"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -91,7 +91,7 @@ const DuaForm = () => {
             className="text-white bg-secondary"
             disabled={isUpdating}
           >
-            {isUpdating ? "Updating..." : "Update Dua Form"}
+            {isUpdating ? "Updating..." : "Update Doa Form"}
           </GradientButton>,
         ]}
       >

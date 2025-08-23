@@ -32,14 +32,18 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
 
   // Disabled date function
   const disabledDate = (current) => {
-    return current && current < moment().startOf('day');
+    return current && current < moment().startOf("day");
   };
 
   useEffect(() => {
     if (visible && editingAuction) {
       // Parse the combined datetime back to separate date and time
-      const startDateTime = editingAuction.startDate ? moment(editingAuction.startDate) : null;
-      const endDateTime = editingAuction.endDate ? moment(editingAuction.endDate) : null;
+      const startDateTime = editingAuction.startDate
+        ? moment(editingAuction.startDate)
+        : null;
+      const endDateTime = editingAuction.endDate
+        ? moment(editingAuction.endDate)
+        : null;
 
       form.setFieldsValue({
         productName: editingAuction.name,
@@ -54,6 +58,16 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
         csAuraWorth: editingAuction.csAuraWorth,
         creditWorth: editingAuction.creditWorth,
         creditNeeds: editingAuction.creditNeeds,
+        normalMembership: editingAuction.normalMembership,
+        advanceMembership: editingAuction.advanceMembership,
+        premiumMembership: editingAuction.premiumMembership,
+        membershipType: editingAuction.normalMembership
+          ? "normal"
+          : editingAuction.advanceMembership
+          ? "advance"
+          : editingAuction.premiumMembership
+          ? "premium"
+          : "normal",
       });
 
       // Fix: Check all possible image properties and ensure we're using the complete URL
@@ -61,7 +75,6 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
         const imageUrl = editingAuction.productImage || editingAuction.image;
         // Check if the URL is relative and needs a base URL
         setImagePreview(getImageUrl(imageUrl));
-
       }
     } else if (visible) {
       form.resetFields();
@@ -110,32 +123,43 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
       }
 
       // Combine date and time properly
-      const startDateTime = values.startDate && values.startTime 
-        ? moment(values.startDate)
-            .hour(values.startTime.hour())
-            .minute(values.startTime.minute())
-            .second(0)
-            .millisecond(0)
-        : null;
+      // Combine date + time properly
+      const startDateTime =
+        values.startDate && values.startTime
+          ? moment(
+              `${values.startDate.format(
+                "YYYY-MM-DD"
+              )} ${values.startTime.format("HH:mm")}`,
+              "YYYY-MM-DD HH:mm"
+            )
+          : null;
 
-      const endDateTime = values.endDate && values.endTime 
-        ? moment(values.endDate)
-            .hour(values.endTime.hour())
-            .minute(values.endTime.minute())
-            .second(0)
-            .millisecond(0)
-        : null;
+      const endDateTime =
+        values.endDate && values.endTime
+          ? moment(
+              `${values.endDate.format("YYYY-MM-DD")} ${values.endTime.format(
+                "HH:mm"
+              )}`,
+              "YYYY-MM-DD HH:mm"
+            )
+          : null;
+
+      console.log(startDateTime, endDateTime);
 
       // Prepare the data
       const auctionData = {
         name: values.productName,
-        startDate: startDateTime?.toISOString(),
-        endDate: endDateTime?.toISOString(),
+        startDate: startDateTime ? startDateTime.toISOString() : null,
+        endDate: endDateTime ? endDateTime.toISOString() : null,
+
         csAuraWorth: Number(values.csAuraWorth),
         creditWorth: Number(values.creditWorth),
         creditNeeds: Number(values.creditNeeds),
+        normalMembership: values.membershipType === "normal",
+        advanceMembership: values.membershipType === "advance",
+        premiumMembership: values.membershipType === "premium",
       };
-
+      console.log(auctionData);
       // Add price only for new auctions or if provided in edit
       if (!isEditing || values.productPrice) {
         auctionData.price = Number(values.productPrice);
@@ -158,18 +182,14 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
 
       // FIXED: Always use FormData for consistency
       const formData = new FormData();
-      
+
       // Always append the data as JSON string
       formData.append("data", JSON.stringify(auctionData));
-      
+
       // Append image if selected, or send a placeholder for updates without new image
       if (selectedImage) {
         formData.append("image", selectedImage);
       } else if (isEditing) {
-        // For updates without new image, you might need to handle this differently
-        // depending on your backend implementation
-        // Option 1: Don't append image field
-        // Option 2: Append a flag indicating no image change
         formData.append("keepExistingImage", "true");
       }
 
@@ -238,14 +258,20 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
           <Form.Item
             name="productPrice"
             label={isEditing ? " Price (Optional)" : " Price"}
-            rules={isEditing ? [] : [{ required: true, message: "Please enter starting price" }]}
+            rules={
+              isEditing
+                ? []
+                : [{ required: true, message: "Please enter starting price" }]
+            }
           >
             <InputNumber
               placeholder="Enter starting price"
               style={{ width: "100%" }}
               min={0}
-              formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             />
           </Form.Item>
         </div>
@@ -278,27 +304,44 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Form.Item
+            name="membershipType"
+            label="Membership Type"
+            rules={[
+              { required: true, message: "Please select membership type" },
+            ]}
+            initialValue="normal"
+          >
+            <Select placeholder="Select membership type">
+              <Option value="normal">Normal Membership</Option>
+              <Option value="advance">Advance Membership</Option>
+              <Option value="premium">Premium Membership</Option>
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Form.Item
             name="startDate"
             label="Start Date"
             rules={[{ required: true, message: "Please select start date" }]}
           >
-            <DatePicker 
-              style={{ width: "100%" }} 
-              disabledDate={disabledDate}
-            />
+            <DatePicker style={{ width: "100%" }} disabledDate={disabledDate} />
           </Form.Item>
-          
+
           <Form.Item
             name="endDate"
             label="End Date"
             rules={[{ required: true, message: "Please select end date" }]}
           >
-            <DatePicker 
-              style={{ width: "100%" }} 
+            <DatePicker
+              style={{ width: "100%" }}
               disabledDate={(current) => {
-                const startDate = form.getFieldValue('startDate');
-                return current && (current < moment().startOf('day') || 
-                       (startDate && current < startDate.startOf('day')));
+                const startDate = form.getFieldValue("startDate");
+                return (
+                  current &&
+                  (current < moment().startOf("day") ||
+                    (startDate && current < startDate.startOf("day")))
+                );
               }}
             />
           </Form.Item>
@@ -333,15 +376,17 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
                 placeholder="Highest bid amount"
                 style={{ width: "100%" }}
                 min={0}
-                formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                formatter={(value) =>
+                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
               />
             </Form.Item>
           </div>
         )}
 
         {/* Custom Image Upload Section */}
-        <Form.Item 
+        <Form.Item
           label="Product Image"
           required={!isEditing}
           help={!isEditing ? "Image is required for new auctions" : ""}
@@ -367,7 +412,9 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
               <div className="text-center py-8">
                 <PictureOutlined className="text-4xl text-gray-400 mb-2" />
                 <p className="text-gray-500">Click to select image</p>
-                {!isEditing && <p className="text-red-500 text-sm">* Required</p>}
+                {!isEditing && (
+                  <p className="text-red-500 text-sm">* Required</p>
+                )}
               </div>
             )}
             <input
