@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Pagination, message, Popconfirm, Tag, Switch } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Pagination, message, Popconfirm, Tag, Switch, Input } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
 import { useDeleteProductMutation, useGetAllProductsQuery, useUpdateProductStatusMutation } from '../../redux/apiSlices/productsApi';
 import ProductModal from './ProductModal';
 import ProductDetailsModal from './ProductDetailsModal';
@@ -13,6 +13,7 @@ const AllProducts = () => {
   const [viewingProduct, setViewingProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchParams, setSearchParams] = useState([]);
 
   // RTK Query hooks
@@ -27,10 +28,34 @@ const AllProducts = () => {
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
     setPageSize(pageSize);
-    setSearchParams([
+    const params = [
       { name: 'page', value: page },
       { name: 'limit', value: pageSize }
-    ]);
+    ];
+    
+    if (searchTerm) {
+      params.push({ name: 'searchTerm', value: searchTerm });
+    }
+    
+    setSearchParams(params);
+  };
+  
+  // Handle search input change
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page on search
+    
+    const params = [
+      { name: 'page', value: 1 },
+      { name: 'limit', value: pageSize }
+    ];
+    
+    if (value) {
+      params.push({ name: 'searchTerm', value });
+    }
+    
+    setSearchParams(params);
   };
 
   // Handle modal visibility
@@ -185,6 +210,17 @@ const AllProducts = () => {
         >
           Add New Product
         </Button>
+      </div>
+      
+      <div className="mb-4">
+        <Input
+          placeholder="Search products..."
+          prefix={<SearchOutlined />}
+          value={searchTerm}
+          onChange={handleSearch}
+          style={{ width: 300 }}
+          allowClear
+        />
       </div>
 
       <Table

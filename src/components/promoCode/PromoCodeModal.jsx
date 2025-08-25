@@ -139,7 +139,7 @@ const PromoCodeModal = ({ isOpen, onClose, editingPromoCode }) => {
         </Form.Item>
 
         {/* Amount Need (Max Usage) */}
-        <Form.Item
+        {/* <Form.Item
           label="Amount Need"
           name="maxUsage"
           rules={[
@@ -152,7 +152,7 @@ const PromoCodeModal = ({ isOpen, onClose, editingPromoCode }) => {
             min={1}
             style={{ width: '100%' }}
           />
-        </Form.Item>
+        </Form.Item> */}
 
         {/* Promo Code */}
         <Form.Item

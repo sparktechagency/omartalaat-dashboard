@@ -5,8 +5,8 @@ export const getImageUrl = (path) => {
   ) {
     return path;
   } else if (typeof path === "string" && path.trim() !== "") {
-    const baseUrl = "http://10.10.7.62:7005";
-    // const baseUrl = "https://api.yogawithjen.life/";
+    // const baseUrl = "http://10.10.7.62:7005";
+    const baseUrl = "https://www.api.coralstash.com/";
     return `${baseUrl}/${path}`;
   } else {
     return "";

@@ -1,4 +1,3 @@
-
 import { api } from "../api/baseApi";
 
 const galleryApi = api.injectEndpoints({
@@ -25,45 +24,35 @@ const galleryApi = api.injectEndpoints({
 
     createGallery: builder.mutation({
       query: (data) => {
-        // Create FormData for both image and description
-        const formData = new FormData();
-        
-        // Add description to FormData
-        formData.append('description', data.description);
-        
-        // Add image if available
-        if (data.image) {
-          formData.append('image', data.image);
-        }
+        // Check if data is FormData
+        const isFormData = data instanceof FormData;
         
         return {
           url: `/gallery`,
           method: "POST",
-          body: formData
+          body: data,
+          // Don't set Content-Type header for FormData - let browser set it with boundary
+          ...(isFormData && {
+            formData: true,
+          })
         };
       },
       invalidatesTags: ["Gallery"],
     }),
-    
+
     updateGallery: builder.mutation({
       query: ({ id, data }) => {
-        // Create FormData for both image and description
-        const formData = new FormData();
-        
-        // Add description to FormData
-        if (data.description) {
-          formData.append('description', data.description);
-        }
-        
-        // Add image if available
-        if (data.image) {
-          formData.append('image', data.image);
-        }
+        // Check if data is FormData
+        const isFormData = data instanceof FormData;
         
         return {
           url: `/gallery/${id}`,
           method: "PATCH",
-          body: formData
+          body: data,
+          // Don't set Content-Type header for FormData - let browser set it with boundary
+          ...(isFormData && {
+            formData: true,
+          })
         };
       },
       invalidatesTags: ["Gallery"],
@@ -71,12 +60,12 @@ const galleryApi = api.injectEndpoints({
 
     deleteGallery: builder.mutation({
       query: (id) => ({
-        url: `/gallery/${id}`,
+        url: `/gallery/delete/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Gallery"],
     }),
-    
+
     updateStatus: builder.mutation({
       query: ({ id, status }) => ({
         url: `/gallery/status/${id}`,
@@ -95,7 +84,3 @@ export const {
   useDeleteGalleryMutation,
   useUpdateStatusMutation,
 } = galleryApi;
-
-
-
-

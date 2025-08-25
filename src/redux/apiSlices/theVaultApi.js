@@ -35,7 +35,7 @@ const theVaultApi = api.injectEndpoints({
 
     deleteTheVault: builder.mutation({
       query: (id) => ({
-        url: `/admin/vault/delete-password/${id}`,
+        url: `/admin/vault/delete-otp/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["TotalEarning"],

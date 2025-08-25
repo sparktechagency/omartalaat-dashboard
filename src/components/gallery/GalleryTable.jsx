@@ -35,25 +35,25 @@ const GalleryTable = ({ gallery, onEdit, onView, onStatusChange, onDelete }) => 
         />
       ),
     },
-    {
-      title: 'Created At',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (date) => new Date(date).toLocaleDateString(),
-    },
+    // {
+    //   title: 'Created At',
+    //   dataIndex: 'createdAt',
+    //   key: 'createdAt',
+    //   render: (date) => new Date(date).toLocaleDateString(),
+    // },
     {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
         <Space size="middle">
-          <Button 
+          {/* <Button 
             type="primary" 
             icon={<EyeOutlined />} 
             onClick={() => onView(record)}
             className="bg-blue-500"
           >
             View
-          </Button>
+          </Button> */}
           <Button 
             type="primary" 
             icon={<EditOutlined />} 
@@ -80,12 +80,12 @@ const GalleryTable = ({ gallery, onEdit, onView, onStatusChange, onDelete }) => 
       columns={columns} 
       dataSource={gallery} 
       rowKey="_id" 
-      pagination={{
-        pageSize: 10,
-        showSizeChanger: true,
-        showQuickJumper: true,
-        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-      }}
+      // pagination={{
+      //   pageSize: 10,
+      //   showSizeChanger: true,
+      //   showQuickJumper: true,
+      //   showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+      // }}
     />
   );
 };

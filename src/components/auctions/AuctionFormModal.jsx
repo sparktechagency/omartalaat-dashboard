@@ -239,11 +239,41 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
             name="productName"
             label="Product Name"
             rules={[{ required: true, message: "Please enter product name" }]}
+            style={{ height: "30px" }}
           >
             <Input placeholder="Enter product name" />
           </Form.Item>
 
+         
+
           <Form.Item
+            name="productPrice"
+            label={isEditing ? " Price (Optional)" : " Price"}
+            rules={
+              isEditing
+                ? []
+                : [{ required: true, message: "Please enter starting price" }]
+            }
+         
+
+
+          >
+            <InputNumber
+              placeholder="Enter starting price"
+              style={{ width: "100%" }}
+              min={0}
+              formatter={(value) =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+             
+
+            />
+          </Form.Item>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <Form.Item
             name="creditNeeds"
             label="Credit Needs"
             rules={[{ required: true, message: "Please enter Credit Needs" }]}
@@ -254,29 +284,6 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
               min={0}
             />
           </Form.Item>
-
-          <Form.Item
-            name="productPrice"
-            label={isEditing ? " Price (Optional)" : " Price"}
-            rules={
-              isEditing
-                ? []
-                : [{ required: true, message: "Please enter starting price" }]
-            }
-          >
-            <InputNumber
-              placeholder="Enter starting price"
-              style={{ width: "100%" }}
-              min={0}
-              formatter={(value) =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-            />
-          </Form.Item>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Form.Item
             name="csAuraWorth"
             label="CS Aura Worth"
@@ -300,16 +307,15 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
               min={0}
             />
           </Form.Item>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Form.Item
+            <Form.Item
             name="membershipType"
             label="Membership Type"
             rules={[
               { required: true, message: "Please select membership type" },
             ]}
             initialValue="normal"
+
+
           >
             <Select placeholder="Select membership type">
               <Option value="normal">Normal Membership</Option>
@@ -317,6 +323,10 @@ const AuctionFormModal = ({ visible, onClose, editingAuction, onSuccess }) => {
               <Option value="premium">Premium Membership</Option>
             </Select>
           </Form.Item>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

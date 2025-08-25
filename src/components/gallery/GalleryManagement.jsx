@@ -53,39 +53,67 @@ const GalleryManagement = () => {
     setModalVisible(true);
   };
 
-  const handleGalleryFormSubmit = async (values, imageFile) => {
-    try {
-      const formData = new FormData();
-      const galleryData = {};
-      Object.keys(values).forEach((key) => {
-        if (key !== "image") {
-          galleryData[key] = values[key];
-        }
-      });
-      formData.append("data", JSON.stringify(galleryData));
-
-      if (imageFile) {
-        formData.append("image", imageFile);
-      }
-
-      if (editingGallery) {
-        const res = await updateGallery({
-          id: editingGallery._id,
-          updatedData: formData,
-        }).unwrap();
-        message.success("Gallery item updated successfully!");
-      } else {
-        const res = await createGallery(formData).unwrap();
-        message.success("Gallery item created successfully!");
-      }
-
-      setModalVisible(false);
-      setEditingGallery(null);
-    } catch (error) {
-      console.error("Error saving gallery item:", error);
-      message.error("Failed to save gallery item. Please try again.");
+const handleGalleryFormSubmit = async (values, imageFile) => {
+  try {
+    console.log("=== DEBUG START ===");
+    console.log("Values received:", values);
+    console.log("Image file received:", imageFile);
+    console.log("Editing gallery:", editingGallery);
+    
+    // First, let's check if we have the required data
+    if (!values.description) {
+      message.error("Description is required!");
+      return;
     }
-  };
+    
+    if (!imageFile && (!editingGallery || !editingGallery.image)) {
+      message.error("Please upload an image for the gallery item.");
+      return;
+    }
+
+    // Create FormData for file upload
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({ description: values.description.trim() }));
+    
+    // Add image if available
+    if (imageFile) {
+      // console.log("Adding image file:", imageFile.name, imageFile.type, imageFile.size);
+      formData.append('image', imageFile);
+    }
+    
+    // Debug: Log FormData contents
+    console.log("=== FormData Contents ===");
+    for (let [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}: File(${value.name}, ${value.type}, ${value.size} bytes)`);
+      } else {
+        console.log(`${key}: ${value}`);
+      }
+    }
+    console.log("=== FormData Contents End ===");
+    
+    if (editingGallery) {
+      console.log("Updating gallery with ID:", editingGallery._id);
+      const res = await updateGallery({
+        id: editingGallery._id,
+        data: formData,
+      }).unwrap();
+      console.log("Update response:", res);
+      message.success("Gallery item updated successfully!");
+    } else {
+      console.log("Creating new gallery item");
+      const res = await createGallery(formData).unwrap();
+      console.log("Create response:", res);
+      message.success("Gallery item created successfully!");
+    }
+
+    setModalVisible(false);
+    setEditingGallery(null);
+  } catch (error) {
+
+    message.error(`Failed to save gallery item: ${error.data?.message || error.message || "Please try again."}`);
+  }
+};
 
   const handleCancel = () => {
     setModalVisible(false);
@@ -183,7 +211,7 @@ const GalleryManagement = () => {
     <div className="p-4">
       <div>
         <div className="flex justify-end mb-4 items-center">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Dropdown overlay={statusMenu} trigger={["click"]}>
               <Button
                 className="mr-2 bg-[#057199] text-white py-5"
@@ -196,7 +224,7 @@ const GalleryManagement = () => {
                 </Space>
               </Button>
             </Dropdown>
-          </div>
+          </div> */}
           <div>
             <GradientButton type="primary" onClick={() => showModal()}>
               Add New Gallery Item

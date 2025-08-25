@@ -286,17 +286,8 @@ const ProductModal = ({ visible, editingProduct, onCancel, onSuccess }) => {
           >
             <InputNumber placeholder="Enter Credit Earn" min={0} style={{ width: "100%" }} />
           </Form.Item>
-        </div>
 
-        <Form.Item
-          name="description"
-          label="Product Description"
-          rules={[{ required: true, message: "Please enter product description" }]}
-        >
-          <Input.TextArea placeholder="Enter product description" rows={4} />
-        </Form.Item>
-
-        <Form.Item
+            <Form.Item
           name="membershipType"
           label="Membership Type"
           rules={[{ required: true, message: "Please select membership type" }]}
@@ -309,6 +300,17 @@ const ProductModal = ({ visible, editingProduct, onCancel, onSuccess }) => {
             ))}
           </Select>
         </Form.Item>
+        </div>
+
+        <Form.Item
+          name="description"
+          label="Product Description"
+          rules={[{ required: true, message: "Please enter product description" }]}
+        >
+          <Input.TextArea placeholder="Enter product description" rows={4} />
+        </Form.Item>
+
+      
 
         <Form.Item label="Upload Pictures">
           <Upload {...uploadProps}>

@@ -39,7 +39,8 @@ const PromoCodeManagement = () => {
   // Handle status toggle
   const handleStatusToggle = async (checked, record) => {
     try {
-      const newStatus = checked ? 'running' : 'inactive';
+      const newStatus = checked ? 'running' : 'expired';
+
       await updateStatus({ id: record._id, status: newStatus }).unwrap();
       message.success('Status updated successfully');
       refetch();
