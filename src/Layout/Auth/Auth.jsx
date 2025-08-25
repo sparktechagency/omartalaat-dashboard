@@ -35,13 +35,10 @@ const Auth = () => {
       className="w-full flex items-center justify-between relative"
       style={{ height: "100vh" }}
     >
-      {/* Background image */}
+      {/* Solid background color */}
       <div
         style={{
-          background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(0, 0, 0, 0.70) 100%), url(${bgImage})`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
+          background: "#fff", /* Using the brand color found in other parts of the app */
           position: "absolute",
           top: 0,
           left: 0,
@@ -75,7 +72,7 @@ const Auth = () => {
       <div className="md:w-1/2 w-full flex justify-end px-4">
         <div
           style={{
-            background: "#FCFCFC3B",
+            background: "#fff",
             padding: 30,
             paddingBottom: 40,
             borderRadius: 15,

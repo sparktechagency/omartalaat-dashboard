@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "http://10.10.7.62:7005/api/v1",
-    baseUrl: "https://www.api.coralstash.com/api/v1",
+    baseUrl: "http://10.10.7.62:7005/api/v1",
+    // baseUrl: "https://www.api.coralstash.com/api/v1",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -33,5 +33,5 @@ export const api = createApi({
   endpoints: () => ({}),
 });
 
-// export const imageUrl = "http://10.10.7.62:7005";
-export const imageUrl = "https://www.api.coralstash.com";
+export const imageUrl = "http://10.10.7.62:7005";
+// export const imageUrl = "https://www.api.coralstash.com";
